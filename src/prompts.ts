@@ -18,6 +18,7 @@ Analyze all changes and write a Git commit message following these rules:
 
 1. Summary line should describe the most impactful change:
    - Choose the change that has the biggest impact on functionality, usability, or developer experience
+   - Scope should be specific (e.g., component name, file name) rather than general module names
    - Format: "${fullGitMojiSpec
       ? '[EMOJI] [TYPE](scope): [brief description]'
       : emoji_enabled
@@ -33,17 +34,15 @@ Analyze all changes and write a Git commit message following these rules:
 
 Example:
 For changes like:
-- Refactoring prompts in src/prompts.ts
-- Removing a GIF from README.md
-- Updating an icon in package.json
-- Fixing a typo in comments
+- Moving Header and StatusBar out of RootComponent
+- Updating layout styles
+- Fixing some comments
 
 Write:
-"refactor(prompts): simplify and streamline commit message generation
-- remove unnecessary gif from readme
-- update extension icon to use vscode default"
+"refactor(RootComponent): remove header and statusbar to simplify layout
+- update component layout styles"
 
-(Note: The typo fix was omitted as minor, and the prompt refactoring details were skipped to avoid repeating the summary)
+(Note: Comment fixes were omitted as minor changes)
 
 Use ${language} for all text. ${emoji_enabled
       ? 'Common GitMoji: 🐛(fix), ✨(feat), 📝(docs), ♻️(refactor), ⬆️(deps), 🔧(config)'
