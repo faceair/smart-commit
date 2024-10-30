@@ -13,92 +13,42 @@ export const IDENTITY = 'You are to act as the author of a commit message in git
 
 const INIT_MAIN_PROMPT = (language: string) => ({
   role: 'system',
-  content: `${IDENTITY} Your mission is to create clean and comprehensive commit messages as per the ${
-    fullGitMojiSpec ? 'GitMoji specification' : 'conventional commit convention'
-  } and explain WHAT were the changes and mainly WHY the changes were done. I'll send you an output of 'git diff --staged' command, and you are to convert it into a commit message.
-    ${
-      emoji_enabled
-        ? 'Use GitMoji convention to preface the commit. Here are some help to choose the right emoji (emoji, description): ' +
-          '🐛, Fix a bug; ' +
-          '✨, Introduce new features; ' +
-          '📝, Add or update documentation; ' +
-          '🚀, Deploy stuff; ' +
-          '✅, Add, update, or pass tests; ' +
-          '♻️, Refactor code; ' +
-          '⬆️, Upgrade dependencies; ' +
-          '🔧, Add or update configuration files; ' +
-          '🌐, Internationalization and localization; ' +
-          '💡, Add or update comments in source code; ' +
-          `${
-            fullGitMojiSpec
-              ? '🎨, Improve structure / format of the code; ' +
-                '⚡️, Improve performance; ' +
-                '🔥, Remove code or files; ' +
-                '🚑️, Critical hotfix; ' +
-                '💄, Add or update the UI and style files; ' +
-                '🎉, Begin a project; ' +
-                '🔒️, Fix security issues; ' +
-                '🔐, Add or update secrets; ' +
-                '🔖, Release / Version tags; ' +
-                '🚨, Fix compiler / linter warnings; ' +
-                '🚧, Work in progress; ' +
-                '💚, Fix CI Build; ' +
-                '⬇️, Downgrade dependencies; ' +
-                '📌, Pin dependencies to specific versions; ' +
-                '👷, Add or update CI build system; ' +
-                '📈, Add or update analytics or track code; ' +
-                '➕, Add a dependency; ' +
-                '➖, Remove a dependency; ' +
-                '🔨, Add or update development scripts; ' +
-                '✏️, Fix typos; ' +
-                '💩, Write bad code that needs to be improved; ' +
-                '⏪️, Revert changes; ' +
-                '🔀, Merge branches; ' +
-                '📦️, Add or update compiled files or packages; ' +
-                '👽️, Update code due to external API changes; ' +
-                '🚚, Move or rename resources (e.g.: files, paths, routes); ' +
-                '📄, Add or update license; ' +
-                '💥, Introduce breaking changes; ' +
-                '🍱, Add or update assets; ' +
-                '♿️, Improve accessibility; ' +
-                '🍻, Write code drunkenly; ' +
-                '💬, Add or update text and literals; ' +
-                '🗃️, Perform database related changes; ' +
-                '🔊, Add or update logs; ' +
-                '🔇, Remove logs; ' +
-                '👥, Add or update contributor(s); ' +
-                '🚸, Improve user experience / usability; ' +
-                '🏗️, Make architectural changes; ' +
-                '📱, Work on responsive design; ' +
-                '🤡, Mock things; ' +
-                '🥚, Add or update an easter egg; ' +
-                '🙈, Add or update a .gitignore file; ' +
-                '📸, Add or update snapshots; ' +
-                '⚗️, Perform experiments; ' +
-                '🔍️, Improve SEO; ' +
-                '🏷️, Add or update types; ' +
-                '🌱, Add or update seed files; ' +
-                '🚩, Add, update, or remove feature flags; ' +
-                '🥅, Catch errors; ' +
-                '💫, Add or update animations and transitions; ' +
-                '🗑️, Deprecate code that needs to be cleaned up; ' +
-                '🛂, Work on code related to authorization, roles and permissions; ' +
-                '🩹, Simple fix for a non-critical issue; ' +
-                '🧐, Data exploration/inspection; ' +
-                '⚰️, Remove dead code; ' +
-                '🧪, Add a failing test; ' +
-                '👔, Add or update business logic; ' +
-                '🩺, Add or update healthcheck; ' +
-                '🧱, Infrastructure related changes; ' +
-                '🧑‍💻, Improve developer experience; ' +
-                '💸, Add sponsorships or money related infrastructure; ' +
-                '🧵, Add or update code related to multithreading or concurrency; ' +
-                '🦺, Add or update code related to validation.'
-              : ''
-          }`
-        : 'Do not preface the commit with anything. Conventional commit keywords:' +
-          'fix, feat, build, chore, ci, docs, style, refactor, perf, test.'
-    }\nDon't add any descriptions to the commit, only commit message.\nUse the present tense. Lines must not be longer than 74 characters. Use ${language} for the commit message.`
+  content: `${IDENTITY}
+Analyze all changes and write a Git commit message following these rules:
+
+1. Summary line should describe the most impactful change:
+   - Choose the change that has the biggest impact on functionality, usability, or developer experience
+   - Format: "${fullGitMojiSpec
+      ? '[EMOJI] [TYPE](scope): [brief description]'
+      : emoji_enabled
+        ? '[EMOJI] [brief description]'
+        : '[TYPE]: [brief description]'
+    }" (max 74 characters)
+
+2. Other notable changes as bullet points:
+   - Start each line with "- " using lowercase
+   - Only include changes different from the summary line
+   - Skip trivial details and implementation specifics
+   - If all remaining changes are minor, omit the details section
+
+Example:
+For changes like:
+- Refactoring prompts in src/prompts.ts
+- Removing a GIF from README.md
+- Updating an icon in package.json
+- Fixing a typo in comments
+
+Write:
+"refactor(prompts): simplify and streamline commit message generation
+- remove unnecessary gif from readme
+- update extension icon to use vscode default"
+
+(Note: The typo fix was omitted as minor, and the prompt refactoring details were skipped to avoid repeating the summary)
+
+Use ${language} for all text. ${emoji_enabled
+      ? 'Common GitMoji: 🐛(fix), ✨(feat), 📝(docs), ♻️(refactor), ⬆️(deps), 🔧(config)'
+      : 'Common types: fix, feat, docs, refactor, chore, style, test'
+    }`
 });
 
 export const INIT_DIFF_PROMPT = {
@@ -110,18 +60,18 @@ export const INIT_DIFF_PROMPT = {
       @@ -10,7 +10,7 @@
       import {
           initWinstonLogger();
-          
+
           const app = express();
           -const port = 7799;
           +const PORT = 7799;
-          
+
           app.use(express.json());
-          
+
           @@ -34,6 +34,6 @@
           app.use((_, res, next) => {
               // ROUTES
               app.use(PROTECTED_ROUTER_URL, protectedRouter);
-              
+
               -app.listen(port, () => {
                   -  console.log(\`Server listening on port \${port}\`);
                   +app.listen(process.env.PORT || PORT, () => {
@@ -131,16 +81,14 @@ export const INIT_DIFF_PROMPT = {
 
 const INIT_CONSISTENCY_PROMPT = (translation) => ({
   role: 'assistant',
-  content: `${
-    emoji_enabled
-      ? `🐛 ${removeConventionalCommitWord(translation.commitFix)}`
-      : translation.commitFix
-  }
-  ${
-    emoji_enabled
+  content: `${emoji_enabled
+    ? `🐛 ${removeConventionalCommitWord(translation.commitFix)}`
+    : translation.commitFix
+    }
+  ${emoji_enabled
       ? `✨ ${removeConventionalCommitWord(translation.commitFeat)}`
       : translation.commitFeat
-  }
+    }
 `
 });
 

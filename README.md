@@ -21,8 +21,6 @@ Use Azure/OpenAI API to review Git changes, generate conventional commit message
 [![][avarage-rating-shield]][avarage-rating-link]
 [![][github-license-shield]][github-license-link]
 
-![](https://github.com/sitoi/ai-commit/blob/main/aicommit.gif?raw=true)
-
 </div>
 
 ## ✨ Features
