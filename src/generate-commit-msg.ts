@@ -2,7 +2,7 @@ import { getDiffStaged } from './git-utils';
 import { ConfigKeys, getConfig } from './config';
 import * as vscode from 'vscode';
 import * as fs from 'fs-extra';
-import { errMsg, infoMsg } from './utils';
+import { errMsg } from './utils';
 import { ChatGPTAPI } from './openai-utils';
 import { getMainCommitPrompt } from './prompts';
 
@@ -38,15 +38,14 @@ export async function getRepo(arg) {
 
 export async function generateCommitMsg(arg) {
   const repo = await getRepo(arg);
-  const apiKey = getConfig<string>(ConfigKeys.OPENAI_API_KEY);
+  const apiKey = getConfig<string>(ConfigKeys.openai_api_key);
   const diff = await getDiffStaged(repo);
 
   if (!apiKey) {
-    infoMsg('OpenAI API Key Not Set');
+    errMsg('generate commit message failed', 'OpenAI API Key Not Set');
     return;
   }
 
-  infoMsg('gitRootPath: ' + repo.rootUri.fsPath);
   const scmInputBox = repo.inputBox as vscode.SourceControlInputBox;
   const messages = await generateCommitMessageChatCompletionPrompt(diff);
   if (scmInputBox) {

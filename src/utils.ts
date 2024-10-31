@@ -5,13 +5,9 @@ export async function wait(timeMs = 300) {
 }
 
 export async function infoMsg(message: string) {
-  vscode.window.showInformationMessage(`[ai-commit] ${message}`);
+  vscode.window.showInformationMessage(`[smart-commit] ${message}`);
 }
 
 export async function errMsg(msg: string, err: any) {
-  vscode.window.showErrorMessage(`[ai-commit] ${msg}, Error: ${err.message}`);
-}
-
-export function removeConventionalCommitWord(message: string): string {
-  return message.replace(/^(fix|feat)\((.+?)\):/, '($2):');
+  vscode.window.showErrorMessage(`[smart-commit] ${msg}, Error: ${err.message}`);
 }

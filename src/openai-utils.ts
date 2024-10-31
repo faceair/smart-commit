@@ -1,14 +1,10 @@
 import OpenAI from 'openai';
 import { ConfigKeys, getConfig } from './config';
 
-const apiKey = getConfig<string>(ConfigKeys.OPENAI_API_KEY);
-const baseURL = getConfig<string>(ConfigKeys.OPENAI_BASE_URL);
-const model = getConfig<string>(ConfigKeys.OPENAI_MODEL);
-const apiVersion = getConfig<string>(ConfigKeys.AZURE_API_VERSION);
-
-if (!apiKey) {
-  throw new Error('The OPENAI_API_KEY environment variable is missing or empty.');
-}
+const apiKey = getConfig<string>(ConfigKeys.openai_api_key);
+const baseURL = getConfig<string>(ConfigKeys.openai_base_url);
+const model = getConfig<string>(ConfigKeys.openai_model);
+const apiVersion = getConfig<string>(ConfigKeys.azure_api_version);
 
 const openaiConfig: {
   apiKey: string;

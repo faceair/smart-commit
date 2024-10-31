@@ -1,8 +1,8 @@
 {
-  "name": "ai-commit",
-  "displayName": "AI Commit",
-  "description": "Use Azure/OpenAI API to review Git changes, generate conventional commit messages that meet the conventions, simplify the commit process, and keep the commit conventions consistent.",
-  "version": "0.0.6",
+  "name": "smart-commit",
+  "displayName": "Smart Commit",
+  "description": "AI-powered commit message generator for VS Code",
+  "version": "0.0.1",
   "engines": {
     "node": ">=16",
     "vscode": "^1.77.0"
@@ -11,35 +11,37 @@
     "Other"
   ],
   "keywords": [
-    "Azure",
-    "OpenAI",
-    "ChatGPT",
-    "GitEmoji",
-    "Git Commit",
-    "Conventional Commits",
-    "Commitizen",
-    "Commit Message",
-    "Commit Message Generator",
-    "AI Commit",
-    "Auto Commit"
+    "git",
+    "commit",
+    "ai",
+    "gpt",
+    "conventional commits",
+    "commit message",
+    "semantic commit",
+    "openai",
+    "azure",
+    "productivity",
+    "automation",
+    "source control",
+    "version control"
   ],
-  "publisher": "sitoi",
-  "repository": "https://github.com/sitoi/ai-commit",
+  "publisher": "faceair",
+  "repository": "https://github.com/faceair/smart-commit",
   "icon": "images/logo.png",
   "activationEvents": [
-    "onCommand:ai-commit"
+    "onCommand:smart-commit"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "extension.ai-commit",
+        "command": "extension.smart-commit",
         "icon": "$(lightbulb)",
-        "title": "AI Commit"
+        "title": "Smart Commit"
       }
     ],
     "configuration": {
       "properties": {
-        "ai-commit.AI_COMMIT_LANGUAGE": {
+        "smart-commit.ai_commit_language": {
           "default": "en",
           "description": "Commit message language",
           "enum": [
@@ -86,43 +88,38 @@
           ],
           "type": "string"
         },
-        "ai-commit.AZURE_API_VERSION": {
+        "smart-commit.azure_api_version": {
           "default": "",
           "description": "AZURE API VERSION",
           "type": "string"
         },
-        "ai-commit.EMOJI_ENABLED": {
-          "default": true,
+        "smart-commit.emoji_enabled": {
+          "default": false,
           "description": "Enable Emoji",
           "type": "boolean"
         },
-        "ai-commit.FULL_GITMOJI_SPEC": {
-          "default": false,
-          "description": "Enable full GitEmoji specification",
-          "type": "boolean"
-        },
-        "ai-commit.OPENAI_API_KEY": {
+        "smart-commit.openai_api_key": {
           "default": "",
           "description": "OpenAI API Key",
           "type": "string"
         },
-        "ai-commit.OPENAI_BASE_URL": {
-          "default": "",
+        "smart-commit.openai_base_url": {
+          "default": "https://api.deepseek.com",
           "description": "OpenAI BASE URL",
           "type": "string"
         },
-        "ai-commit.OPENAI_MODEL": {
-          "default": "gpt-3.5-turbo",
+        "smart-commit.openai_model": {
+          "default": "deepseek-chat",
           "description": "OpenAI MODEL",
           "type": "string"
         }
       },
-      "title": "AI Commit"
+      "title": "Smart Commit"
     },
     "menus": {
       "scm/title": [
         {
-          "command": "extension.ai-commit",
+          "command": "extension.smart-commit",
           "group": "navigation"
         }
       ]
